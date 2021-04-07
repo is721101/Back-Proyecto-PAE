@@ -89,7 +89,6 @@ router.get("/verify/:id/:mesa", (req, res) => {
     let logged = false
     let contra = req.params.id
     let mesa = req.params.mesa
-
     if (mesa && contra) {
         let table = mongoose.model('mesas', MesaSchema);
         table.findOne({ "id": mesa, "codigo": contra, "activo": 1 }).then(e => {
@@ -107,14 +106,5 @@ router.get("/verify/:id/:mesa", (req, res) => {
 
 })
 
-router.post("/notification",(req,res)=>{
-    let mesa=req.body.mesa
-    let tipo=req.body.tipo
-    console.log("mesa")
-    console.log("tipo")
-    let notification= mongoose.model('notificaciones',NotificationSchema);
-    notification.insertMany({mesa,tipo})
-    res.send("hecho")
-})
 
 module.exports = router;
