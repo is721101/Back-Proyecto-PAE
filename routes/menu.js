@@ -3,6 +3,8 @@ const router = express.Router();
 const PlatilloSchema = require('../DB/platillos');
 const mongoose = require('mongoose');
 const MesaSchema = require('../db/mesa');
+const NotificationSchema = require('../DB/notification');
+
 
 
 
@@ -32,10 +34,9 @@ router.post("/pedido",(req,res)=>{
     }
 
     let table= mongoose.model('mesas',MesaSchema);
-    table.findOneAndUpdate({"nombre":mesa},{$push:{pedido:pedidoHecho}},{
+    table.findOneAndUpdate({"id":mesa},{$push:{pedido:pedidoHecho}},{
         new:true
     }).then(e=>{
-        console.log(e)
         res.send("Done")
     })
     //console.log(pedidoHecho)
@@ -56,12 +57,64 @@ router.get("/pedido/:id",(req,res)=>{
     let table= mongoose.model('mesas',MesaSchema);
     let id=req.params.id
     //console.log("el ID es" +id)
-    table.findOne({nombre:id}).lean().then(e=>{
+    table.findOne({id:id}).lean().then(e=>{
         //console.log(e.pedido)
         pedidos=e.pedido
         res.send(pedidos)
     })
     
+})
+
+
+
+
+
+router.get("/validate/:id/:mesa",(req,res)=>{
+    let contra=req.params.id
+    let mesa=req.params.mesa
+    if(contra){
+        let table= mongoose.model('mesas',MesaSchema);
+        table.findOne({"id":mesa,"codigo":contra}).then(e=>{
+            if(e){
+                res.send("pasa")
+            }else{
+                res.send("false")
+            }
+        })
+    }
+    
+})
+
+router.get("/verify/:id/:mesa", (req, res) => {
+    let logged = false
+    let contra = req.params.id
+    let mesa = req.params.mesa
+
+    if (mesa && contra) {
+        let table = mongoose.model('mesas', MesaSchema);
+        table.findOne({ "id": mesa, "codigo": contra, "activo": 1 }).then(e => {
+            if (e) {
+                res.send("true")
+            } else {
+                res.send("false")
+            }
+
+        })
+    }else{
+        res.send("false")
+    }
+    
+
+})
+
+router.post("/notification",(req,res)=>{
+    let mesa=req.body.mesa
+    let tipo=req.body.tipo
+    console.log("mesa")
+    console.log("tipo")
+    let notification= mongoose.model('notificaciones',NotificationSchema);
+    notification.insertMany({mesa,tipo})
+    res.send("hecho")
 })
 
 module.exports = router;

@@ -15,6 +15,8 @@ const index = require('./routes/index')
 
 //-Menu
 const menu = require('./routes/menu')
+const notification = require('./routes/notification')
+
 
 
 
@@ -39,6 +41,7 @@ app.use(express.static(path.join(__dirname, '/public')));
 //Use routes
 app.use('/',index)
 app.use('/menu',menu)
+app.use('/notification',notification)
 
 
 app.listen(3000, () => console.log('Listening on port 3000'));
