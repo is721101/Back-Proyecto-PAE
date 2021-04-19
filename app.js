@@ -41,12 +41,16 @@ app.use(express.static(path.join(__dirname, '/public')));
 
 
 //Use routes
-app.use('/',index)
-app.use('/menu',menu)
-app.use('/notification',notification)
-app.use('/correo',correo)
-app.use('/ordenar',ordenar)
+app.use('/',index);
+app.use('/menu',menu);
+app.use('/notification',notification);
+app.use('/correo',correo);
+app.use('/ordenar',ordenar);
 
+app.use('/api/employees',require('./routes/employees.routes'));
+app.use('/api/cocineros',require('./routes/cocineros.routes'));
+app.use('/api/platillos',require('./routes/platillos.routes'));
+app.use('/api/mesas',require('./routes/mesas.routes'));
 
 
 // catch 404 and forward to error handler
