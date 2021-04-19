@@ -14,6 +14,10 @@ const NotificationSchema = mongoose.Schema({
   tipo:{
     type:String,
   },
+  tomado:{
+    type:Boolean
+  },
+
 })
 
 module.exports = NotificationSchema;
