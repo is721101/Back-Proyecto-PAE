@@ -37,7 +37,7 @@ router.post("/pedido",(req,res)=>{
         new:true
     }).then(e=>{
         console.log("Pedido agregado")
-        res.send("Done")
+        res.send(e).status(201)
     })
     
     

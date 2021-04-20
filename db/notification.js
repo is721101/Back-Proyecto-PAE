@@ -4,9 +4,6 @@ const {
 } = require('mongoose')
 
 const NotificationSchema = mongoose.Schema({
-  id:{
-    type:Number
-  },
   mesa:{
     type:String,
 
@@ -19,5 +16,24 @@ const NotificationSchema = mongoose.Schema({
   },
 
 })
-
-module.exports = NotificationSchema;
+NotificationSchema.statics.SaveNotif = async (newNotif)=>{
+  let n = notificacion(newNotif);
+  let doc = await n.save();
+  return doc;
+}
+NotificationSchema.statics.ServirNotif=async(id)=>{
+  let x=await notificacion.findOne({_id:id}).lean();
+  x.tomado=true;
+  let updated ={}
+  try {
+    updated = await notificacion.findByIdAndUpdate(
+          x._id, 
+          {$set: x},
+          {new: true, useFindAndModify: false}
+        );
+  } catch (error) {
+      console.log(error)
+  }
+return updated;
+}
+module.exports = notificacion = mongoose.model('notificaciones', NotificationSchema);
