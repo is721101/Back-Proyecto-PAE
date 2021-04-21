@@ -5,6 +5,8 @@ const employeesCtrl = require('../controllers/employees.controller');
 
 router.get('/',employeesCtrl.getEmployees);
 
+router.get('/cocineros',employeesCtrl.getCocineros)
+
 router.post('/',employeesCtrl.createEmployee);
 
 router.get('/:id',employeesCtrl.getEmployee);

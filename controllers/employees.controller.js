@@ -6,6 +6,10 @@ employeesCtrl.getEmployees = async (req,res) => {
     const employees = await Employee.find();
     res.json(employees);
 }
+employeesCtrl.getCocineros = async (req,res) => {
+    const employees = await Employee.find({ "position":[ "Cocinero","Chef"]  });
+    res.json(employees);
+}
 employeesCtrl.createEmployee = async (req,res) => {
     const newEmployee = new Employee(req.body);
     await newEmployee.save()
