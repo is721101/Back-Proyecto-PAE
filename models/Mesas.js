@@ -2,9 +2,9 @@ const { Schema,model } = require('mongoose');
 
 
 mesaSchema = new Schema({
-    nombre: {type:String,required:true},
-    id: {type:String,required:true},
-    activo: {type:Number,required:true},
+    id: {type:Number,required:true},
+    activo: {type:Boolean,required:true},
+    codigo: {type:String,required:true},
 },{
     timestamp:true,
     versionKey:false
