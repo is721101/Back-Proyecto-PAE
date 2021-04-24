@@ -5,7 +5,7 @@ const MesaSchema = require('../db/mesa');
 router.get("/",async (req,res)=>{
    
     let resp=await MesaSchema.ocuparMesaVacia();
-    console.log(resp);
+
         if(resp){
             res.status(201).send(resp)
         }
@@ -15,7 +15,6 @@ router.get("/",async (req,res)=>{
         }
 })
 router.put("/",async(req,res)=>{
-    console.log(req.body);
     let resp=await MesaSchema.liberarMesa(req.body.id);
     
     if(resp){

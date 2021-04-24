@@ -11,8 +11,6 @@ router.post("/",async(req,res)=>{
         tomado:false
         
     };
-    console.log("Insertando: ");
-    console.log(newNotif);
     let resp=await NotificationSchema.SaveNotif(newNotif);
     if(resp){
         res.status(201).send(resp);
@@ -24,7 +22,6 @@ router.post("/",async(req,res)=>{
 
 router.get("/",async(req,res)=>{
     let resp=await NotificationSchema.find({tomado:false}).lean();
-    console.log(resp);
     if(resp){
         res.status(201).send(resp)
     }

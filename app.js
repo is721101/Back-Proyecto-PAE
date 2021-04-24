@@ -39,6 +39,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(lessMiddleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, '/public')));
 
+const http = require('http').Server(app);
+
+const io = require('socket.io')(http, {
+  cors: {
+      origins: ['http://localhost:4200']
+  }
+});
 
 //Use routes
 app.use('/',index);
@@ -52,7 +59,12 @@ app.use('/api/cocineros',require('./routes/cocineros.routes'));
 app.use('/api/platillos',require('./routes/platillos.routes'));
 app.use('/api/mesas',require('./routes/mesas.routes'));
 
-
+io.on('connection', socket => {
+  console.log("Socket conectado")
+  socket.on('NuevaNotificacion',notif=>{
+    io.emit('Notificaciones',notif);
+  })
+});
 // catch 404 and forward to error handler
  app.use(function(req, res, next) {
    next(createError(404));
@@ -71,4 +83,4 @@ app.use('/api/mesas',require('./routes/mesas.routes'));
  });
 
 
-app.listen(3000, () => console.log('Listening on port 3000'));
+ http.listen(3000, () => console.log('listening on port 3000'));

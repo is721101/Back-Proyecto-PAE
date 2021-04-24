@@ -36,7 +36,6 @@ router.post("/pedido",(req,res)=>{
     MesaSchema.findOneAndUpdate({id:mesa},{$push:{pedido:pedidoHecho}},{
         new:true
     }).then(e=>{
-        console.log("Pedido agregado")
         res.send(e).status(201)
     })
     
@@ -74,7 +73,7 @@ router.get("/validate/:id/:mesa",async(req,res)=>{
         
         let resp= await MesaSchema.findOne({id:mesa,codigo:contra}).lean()
             if(resp){
-                console.log(resp)
+
                 res.send("pasa").status(201)
             }else{
                 res.send(null)
