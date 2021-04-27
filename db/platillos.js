@@ -19,6 +19,9 @@ const PlatilloSchema = mongoose.Schema({
   },
   price:{
     type:Number,
+  },
+  category:{
+    type:String,
   }
 })
 

@@ -55,7 +55,6 @@ app.use('/correo',correo);
 app.use('/ordenar',ordenar);
 
 app.use('/api/employees',require('./routes/employees.routes'));
-app.use('/api/cocineros',require('./routes/cocineros.routes'));
 app.use('/api/platillos',require('./routes/platillos.routes'));
 app.use('/api/mesas',require('./routes/mesas.routes'));
 
