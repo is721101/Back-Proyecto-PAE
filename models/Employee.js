@@ -8,6 +8,8 @@ employeeSchema = new Schema({
     salary: {type:Number,required:true},
     email: {type:String,required:true},
     password: {type:String,required:true},
+    urlImage:{type:String}
+
 },{
     timestamp:true,
     versionKey:false
