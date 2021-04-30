@@ -7,7 +7,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser=require('body-parser')
 const cors=require('cors')
 const hbs = require('express-handlebars');
- 
+const morgan = require('morgan')
 
 //PRUEBA 
 
@@ -23,15 +23,11 @@ const menu = require('./routes/menu')
 const notification = require('./routes/notification')
 const correo=require('./routes/correo')
 const ordenar=require('./routes/ordenar')
-
-const authRouter = require('./routes/auth'); 
-const passport = require('passport');
+ 
 const cookieSession = require('cookie-session')
-require('./config/passport'); 
 //Init app
 const app = express();
-
-
+ 
 app.use(cookieSession({   maxAge: 24 * 60	 * 60 * 1000,   
   keys: ['clave'] //clave para encriptar 
 })) 
@@ -45,6 +41,7 @@ app.set('view engine', 'hbs');
 
  
 app.use(express.json());
+app.use(morgan('dev'));
 app.use(cors())
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
@@ -71,7 +68,7 @@ app.use('/ordenar',ordenar);
 app.use('/api/employees',require('./routes/employees.routes'));
 app.use('/api/platillos',require('./routes/platillos.routes'));
 app.use('/api/mesas',require('./routes/mesas.routes'));
-app.use('/api/users',require('./routes/user.routes'));
+app.use('/api/auth',require('./routes/auth.crud.routes'));
 
 io.on('connection', socket => {
   console.log("Socket conectado")
