@@ -8,8 +8,6 @@ employeesCtrl.getEmployees = async (req,res) => {
 }
 
 employeesCtrl.verifyEmployee = async (req,res) => {
-    console.log("ENTRA")
-    console.log("REQ.BODY= ", req.body.email)
     const employeeFound = await Employee.findOne({email : req.body.email})
     res.json(employeeFound);
 }
