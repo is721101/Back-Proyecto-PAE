@@ -19,6 +19,7 @@ employeesCtrl.getEmployee = async(req,res) => {
     const employee= await Employee.findOne({_id:req.params.id})
     res.send(employee);
 }
+
 employeesCtrl.editEmployee = async(req,res) => {
    await Employee.findByIdAndUpdate(req.params.id,req.body);
    res.json({status:'Employee Updated'});

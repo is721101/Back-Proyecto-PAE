@@ -1,3 +1,4 @@
+        
 const createError = require('http-errors');
 require("dotenv").config()             
 const express = require('express');    
@@ -8,6 +9,11 @@ const cookieParser = require('cookie-parser');
 const bodyParser=require('body-parser')
 const cors=require('cors')
 const hbs = require('express-handlebars');
+const lessMiddleware = require('less-middleware');
+const cookieSession = require('cookie-session');
+const passport = require('passport');
+require('dotenv').config();
+require('./functions/passport');
 const morgan = require('morgan')
 
 const auth= require("./routes/auth")
@@ -41,6 +47,16 @@ app.use(cookieSession({   maxAge: 24 * 60	 * 60 * 1000,
 app.engine('hbs', hbs({extname: 'hbs', defaultLayout: 'layout', layoutsDir: __dirname + '/views/layout'}));
 app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'hbs');
+
+app.use(cors())
+app.use(cookieSession({
+  maxAge: 24 * 60 * 60 * 1000,
+  keys: ['clave'] 
+ }))
+ 
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(express.json());
 
 
  
@@ -77,6 +93,7 @@ app.use('/menu',menu);
 app.use('/notification',notification);
 app.use('/correo',correo);
 app.use('/ordenar',ordenar);
+app.use('/auth',auth)
 
  
 app.use('/api/employees',require('./routes/employees.routes'));
@@ -103,11 +120,10 @@ io.on('connection', socket => {
    res.locals.message = err.message;
    res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-   // render the error page
-   //res.status(err.status || 500);
    res.send("false");
  });
 
+<<<<<<< HEAD
  app.use((req, res, next) => {
   if (req.header('Authorization')) {
     req.token = req.header('Authorization').replace('Bearer ', '');
@@ -126,4 +142,6 @@ app.use(async (req, res, next) => {
   }
 });
 
+=======
+>>>>>>> eaaa15a067b29c493fa24d1d19c30cb51f88d891
  http.listen(3000, () => console.log('listening on port 3000'));
