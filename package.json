@@ -2,10 +2,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
-<<<<<<< HEAD
-=======
     "cookie-parser": "^1.4.5",
->>>>>>> 387933e8ec63499bc1d02e0f80a26e88eb311b4a
     "cookie-session": "^1.4.0",
     "cors": "^2.8.5",
     "dotenv": "^8.6.0",

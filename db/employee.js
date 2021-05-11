@@ -14,8 +14,4 @@ employeeSchema = new Schema({
     versionKey:false
 })
 
-<<<<<<< HEAD
-module.exports = employeeSchema;
-=======
 module.exports = model('employees',employeeSchema);
->>>>>>> eaaa15a067b29c493fa24d1d19c30cb51f88d891

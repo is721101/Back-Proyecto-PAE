@@ -5,13 +5,10 @@ const express = require('express');
 const path = require('path');
 const passport=require('passport')
 const lessMiddleware = require('less-middleware');
-const cookieParser = require('cookie-parser');
 const bodyParser=require('body-parser')
 const cors=require('cors')
 const hbs = require('express-handlebars');
-const lessMiddleware = require('less-middleware');
 const cookieSession = require('cookie-session');
-const passport = require('passport');
 require('dotenv').config();
 require('./functions/passport');
 const morgan = require('morgan')
@@ -34,7 +31,6 @@ const notification = require('./routes/notification')
 const correo=require('./routes/correo')
 const ordenar=require('./routes/ordenar')
  
-const cookieSession = require('cookie-session')
 //Init app
 const app = express();
  
@@ -63,7 +59,6 @@ app.use(express.json());
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(cors())
-app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(lessMiddleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, '/public')));
@@ -123,7 +118,6 @@ io.on('connection', socket => {
    res.send("false");
  });
 
-<<<<<<< HEAD
  app.use((req, res, next) => {
   if (req.header('Authorization')) {
     req.token = req.header('Authorization').replace('Bearer ', '');
@@ -142,6 +136,4 @@ app.use(async (req, res, next) => {
   }
 });
 
-=======
->>>>>>> eaaa15a067b29c493fa24d1d19c30cb51f88d891
  http.listen(3000, () => console.log('listening on port 3000'));
