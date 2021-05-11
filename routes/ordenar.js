@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const PlatilloSchema = require('../DB/platillos');
+const PlatilloSchema = require('../db/platillos');
 const MesaSchema = require('../db/mesa');
 router.get("/",async (req,res)=>{
    
