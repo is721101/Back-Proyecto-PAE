@@ -10,11 +10,9 @@ const cors=require('cors')
 const hbs = require('express-handlebars');
 const cookieSession = require('cookie-session');
 require('dotenv').config();
-require('./functions/passport');
 const morgan = require('morgan')
 
-const auth= require("./routes/auth")
-require('./config/passport')
+
 
 //PRUEBA 
 
@@ -30,7 +28,8 @@ const menu = require('./routes/menu')
 const notification = require('./routes/notification')
 const correo=require('./routes/correo')
 const ordenar=require('./routes/ordenar')
- 
+const clima=require('./routes/clima')
+
 //Init app
 const app = express();
  
@@ -88,13 +87,12 @@ app.use('/menu',menu);
 app.use('/notification',notification);
 app.use('/correo',correo);
 app.use('/ordenar',ordenar);
+app.use('/clima',clima)
 
- 
 app.use('/api/employees',require('./routes/employees.routes'));
 app.use('/api/platillos',require('./routes/platillos.routes'));
 app.use('/api/mesas',require('./routes/mesas.routes'));
 //app.use('/api/auth',require('./routes/auth.crud.routes'));
-app.use('/api/auth',auth);
 
 io.on('connection', socket => {
   
