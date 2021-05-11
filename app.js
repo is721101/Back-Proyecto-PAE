@@ -88,7 +88,6 @@ app.use('/menu',menu);
 app.use('/notification',notification);
 app.use('/correo',correo);
 app.use('/ordenar',ordenar);
-app.use('/auth',auth)
 
  
 app.use('/api/employees',require('./routes/employees.routes'));
@@ -98,9 +97,13 @@ app.use('/api/mesas',require('./routes/mesas.routes'));
 app.use('/api/auth',auth);
 
 io.on('connection', socket => {
-  console.log("Socket conectado")
+  
   socket.on('NuevaNotificacion',notif=>{
     io.emit('Notificaciones',notif);
+  })
+  socket.on('NuevaOrden',info=>{
+    console.log(info)
+    io.emit('CambiarCodigo',info);
   })
 });
 // catch 404 and forward to error handler
