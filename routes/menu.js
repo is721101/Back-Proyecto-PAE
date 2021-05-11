@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const PlatilloSchema = require('../DB/platillos');
+const PlatilloSchema = require('../db/platillos');
 const mongoose = require('mongoose');
 const MesaSchema = require('../db/mesa');
 const NotificationSchema = require('../DB/notification');
