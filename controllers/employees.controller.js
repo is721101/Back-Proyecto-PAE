@@ -6,6 +6,14 @@ employeesCtrl.getEmployees = async (req,res) => {
     const employees = await Employee.find();
     res.json(employees);
 }
+
+employeesCtrl.verifyEmployee = async (req,res) => {
+    console.log("ENTRA")
+    console.log("REQ.BODY= ", req.body.email)
+    const employeeFound = await Employee.findOne({email : req.body.email})
+    res.json(employeeFound);
+}
+
 employeesCtrl.getCocineros = async (req,res) => {
     const employees = await Employee.find({ "position":[ "Cocinero","Chef"]  });
     res.json(employees);
