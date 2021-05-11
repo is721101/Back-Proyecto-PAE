@@ -2,12 +2,16 @@ const createError = require('http-errors');
 require("dotenv").config()             
 const express = require('express');    
 const path = require('path');
+const passport=require('passport')
 const lessMiddleware = require('less-middleware');
 const cookieParser = require('cookie-parser');
 const bodyParser=require('body-parser')
 const cors=require('cors')
 const hbs = require('express-handlebars');
 const morgan = require('morgan')
+
+const auth= require("./routes/auth")
+require('./config/passport')
 
 //PRUEBA 
 
@@ -57,6 +61,16 @@ const io = require('socket.io')(http, {
   }
 });
 
+
+app.use(cookieSession({
+  maxAge:24 *60 * 60 *1000,
+  keys: ['clave']
+}))
+
+app.use(passport.initialize())
+app.use(passport.session())
+
+
 //Use routes
 app.use('/',index);
 app.use('/menu',menu);
@@ -68,7 +82,8 @@ app.use('/ordenar',ordenar);
 app.use('/api/employees',require('./routes/employees.routes'));
 app.use('/api/platillos',require('./routes/platillos.routes'));
 app.use('/api/mesas',require('./routes/mesas.routes'));
-app.use('/api/auth',require('./routes/auth.crud.routes'));
+//app.use('/api/auth',require('./routes/auth.crud.routes'));
+app.use('/api/auth',auth);
 
 io.on('connection', socket => {
   console.log("Socket conectado")
@@ -93,5 +108,22 @@ io.on('connection', socket => {
    res.send("false");
  });
 
+ app.use((req, res, next) => {
+  if (req.header('Authorization')) {
+    req.token = req.header('Authorization').replace('Bearer ', '');
+    return next();
+  }
+  res.status(401).send('401 unauthorized');
+});
+
+app.use(async (req, res, next) => {
+  try {
+    const response = await axios.get(`https://oauth2.googleapis.com/tokeninfo?id_token=${req.token}`);
+    console.log("response es: ", response)
+    res.status(401).send('401 unauthorized');
+  } catch (err) {
+    res.send(err);
+  }
+});
 
  http.listen(3000, () => console.log('listening on port 3000'));
