@@ -8,7 +8,6 @@ const cookieParser = require('cookie-parser');
 const bodyParser=require('body-parser')
 const cors=require('cors')
 const hbs = require('express-handlebars');
-const lessMiddleware = require('less-middleware');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 require('dotenv').config();
@@ -30,7 +29,6 @@ const notification = require('./routes/notification')
 const correo=require('./routes/correo')
 const ordenar=require('./routes/ordenar')
  
-const cookieSession = require('cookie-session')
 //Init app
 const app = express();
  
@@ -79,7 +77,6 @@ app.use('/menu',menu);
 app.use('/notification',notification);
 app.use('/correo',correo);
 app.use('/ordenar',ordenar);
-app.use('/auth',auth)
 
  
 app.use('/api/employees',require('./routes/employees.routes'));
@@ -88,9 +85,13 @@ app.use('/api/mesas',require('./routes/mesas.routes'));
 app.use('/api/auth',require('./routes/auth.crud.routes'));
 
 io.on('connection', socket => {
-  console.log("Socket conectado")
+  
   socket.on('NuevaNotificacion',notif=>{
     io.emit('Notificaciones',notif);
+  })
+  socket.on('NuevaOrden',info=>{
+    console.log(info)
+    io.emit('CambiarCodigo',info);
   })
 });
 // catch 404 and forward to error handler
