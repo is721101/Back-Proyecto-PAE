@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const NotificationSchema = require('../DB/notification');
+const NotificationSchema = require('../db/notification');
 
 router.post("/",async(req,res)=>{
     let newNotif={
