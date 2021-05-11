@@ -3,7 +3,7 @@ const router = express.Router();
 const PlatilloSchema = require('../db/platillos');
 const mongoose = require('mongoose');
 const MesaSchema = require('../db/mesa');
-const NotificationSchema = require('../DB/notification');
+const NotificationSchema = require('../db/notification');
 
 
 
