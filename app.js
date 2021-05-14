@@ -134,15 +134,7 @@ app.use((req, res, next) => {
   res.status(401).send('401 unauthorized');
 });
 
-app.use(async (req, res, next) => {
-  try {
-    const response = await axios.get(`https://oauth2.googleapis.com/tokeninfo?id_token=${req.token}`);
-    console.log("response es: ", response)
-    res.status(401).send('401 unauthorized');
-  } catch (err) {
-    res.send(err);
-  }
-});
+
 app.use(function (req, res, next) {
   next(createError(404));
 });
