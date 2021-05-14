@@ -106,12 +106,9 @@ io.on('connection', socket => {
   })
 });
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static('/public'));
-  app.get("*", (req, res) => {
-    req.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-  });
-}
+app.get('*', function (req, res) {
+  res.sendfile('./dist/index.html'); // load our index.html file
+});
 
 
 // catch 404 and forward to error handler
