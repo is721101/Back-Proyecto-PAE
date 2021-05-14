@@ -1,12 +1,12 @@
-        
+
 const createError = require('http-errors');
-require("dotenv").config()             
-const express = require('express');    
+require("dotenv").config()
+const express = require('express');
 const path = require('path');
-const passport=require('passport')
+const passport = require('passport')
 const lessMiddleware = require('less-middleware');
-const bodyParser=require('body-parser')
-const cors=require('cors')
+const bodyParser = require('body-parser')
+const cors = require('cors')
 const hbs = require('express-handlebars');
 const cookieSession = require('cookie-session');
 require('dotenv').config();
@@ -17,7 +17,7 @@ const morgan = require('morgan')
 //PRUEBA 
 
 /********************************/
-            //Routes
+//Routes
 /*******************************/
 //-Loggin with the table's data 
 //-If all the information is ok, Will show the menu
@@ -26,54 +26,55 @@ const index = require('./routes/index')
 //-Menu
 const menu = require('./routes/menu')
 const notification = require('./routes/notification')
-const correo=require('./routes/correo')
-const ordenar=require('./routes/ordenar')
-const clima=require('./routes/clima')
+const correo = require('./routes/correo')
+const ordenar = require('./routes/ordenar')
+const clima = require('./routes/clima')
 
 //Init app
 const app = express();
- 
-app.use(cookieSession({   maxAge: 24 * 60	 * 60 * 1000,   
+
+app.use(cookieSession({
+  maxAge: 24 * 60 * 60 * 1000,
   keys: ['clave'] //clave para encriptar 
-})) 
+}))
 
 
 // view engine setup
-app.engine('hbs', hbs({extname: 'hbs', defaultLayout: 'layout', layoutsDir: __dirname + '/views/layout'}));
+app.engine('hbs', hbs({ extname: 'hbs', defaultLayout: 'layout', layoutsDir: __dirname + '/views/layout' }));
 app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'hbs');
 
 app.use(cors())
 app.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000,
-  keys: ['clave'] 
- }))
- 
+  keys: ['clave']
+}))
+
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.json());
 
 
- 
+
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(cors())
 app.use(express.urlencoded({ extended: false }));
 app.use(lessMiddleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, '/public')));
- 
+
 
 const http = require('http').Server(app);
 
 const io = require('socket.io')(http, {
   cors: {
-      origins: ['']
+    origins: ['']
   }
 });
 
 
 app.use(cookieSession({
-  maxAge:24 *60 * 60 *1000,
+  maxAge: 24 * 60 * 60 * 1000,
   keys: ['clave']
 }))
 
@@ -82,44 +83,53 @@ app.use(passport.session())
 
 
 //Use routes
-app.use('/',index);
-app.use('/menu',menu);
-app.use('/notification',notification);
-app.use('/correo',correo);
-app.use('/ordenar',ordenar);
-app.use('/clima',clima)
+app.use('/', index);
+app.use('/menu', menu);
+app.use('/notification', notification);
+app.use('/correo', correo);
+app.use('/ordenar', ordenar);
+app.use('/clima', clima)
 
-app.use('/api/employees',require('./routes/employees.routes'));
-app.use('/api/platillos',require('./routes/platillos.routes'));
-app.use('/api/mesas',require('./routes/mesas.routes'));
+app.use('/api/employees', require('./routes/employees.routes'));
+app.use('/api/platillos', require('./routes/platillos.routes'));
+app.use('/api/mesas', require('./routes/mesas.routes'));
 //app.use('/api/auth',require('./routes/auth.crud.routes'));
 
 io.on('connection', socket => {
-  
-  socket.on('NuevaNotificacion',notif=>{
-    io.emit('Notificaciones',notif);
+
+  socket.on('NuevaNotificacion', notif => {
+    io.emit('Notificaciones', notif);
   })
-  socket.on('NuevaOrden',info=>{
+  socket.on('NuevaOrden', info => {
     console.log(info)
-    io.emit('CambiarCodigo',info);
+    io.emit('CambiarCodigo', info);
   })
 });
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static('/public'));
+  app.get("*", (req, res) => {
+    req.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
+
+
 // catch 404 and forward to error handler
- app.use(function(req, res, next) {
-   next(createError(404));
- });
+app.use(function (req, res, next) {
+  next(createError(404));
+});
 
- // error handler
- app.use(function(err, req, res, next) {
-   
- // set locals, only providing error in development
-   res.locals.message = err.message;
-   res.locals.error = req.app.get('env') === 'development' ? err : {};
+// error handler
+app.use(function (err, req, res, next) {
 
-   res.send("false");
- });
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
- app.use((req, res, next) => {
+  res.send("false");
+});
+
+app.use((req, res, next) => {
   if (req.header('Authorization')) {
     req.token = req.header('Authorization').replace('Bearer ', '');
     return next();
@@ -152,6 +162,11 @@ app.use(function (err, req, res, next) {
 });
 // http.listen(3000, () => console.log('listening on port 3000'));
 
- http.listen(process.env.PORT || 3000, function(){
+http.listen(process.env.PORT || 3000, function () {
   console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 });
+
+
+
+
+
