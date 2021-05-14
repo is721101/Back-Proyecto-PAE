@@ -93,7 +93,8 @@ app.use('/clima',clima)
 app.use('/api/employees',require('./routes/employees.routes'));
 app.use('/api/platillos',require('./routes/platillos.routes'));
 app.use('/api/mesas',require('./routes/mesas.routes'));
-app.use('/api/files',require('./routes/s3.router'))
+app.use('/api/files',require('./routes/s3.router'));
+app.use('/api/auth',require('./routes/auth.crud.routes'));
 
 io.on('connection', socket => {
 
