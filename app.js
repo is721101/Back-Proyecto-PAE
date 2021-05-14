@@ -92,7 +92,7 @@ app.use('/clima',clima)
 app.use('/api/employees',require('./routes/employees.routes'));
 app.use('/api/platillos',require('./routes/platillos.routes'));
 app.use('/api/mesas',require('./routes/mesas.routes'));
-//app.use('/api/auth',require('./routes/auth.crud.routes'));
+app.use('/api/files',require('./routes/s3.router'))
 
 io.on('connection', socket => {
   
@@ -138,6 +138,10 @@ app.use(async (req, res, next) => {
 });
 app.use(function (req, res, next) {
   next(createError(404));
+});
+
+app.use('*', (req, res, next) => {
+  res.sendFile(path.join(__dirname, 'angular build file path'));
 });
 
 // error handler
