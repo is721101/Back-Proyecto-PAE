@@ -110,7 +110,9 @@ io.on('connection', socket => {
 app.get('*', function (req, res) {
   res.sendfile('./public/index.html'); // load our index.html file
 });
-
+app.post('*', function (req, res) {
+  res.sendfile('./public/index.html'); // load our index.html file
+});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
