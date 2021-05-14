@@ -107,7 +107,7 @@ io.on('connection', socket => {
 });
 
 app.get('*', function (req, res) {
-  res.sendfile('./dist/index.html'); // load our index.html file
+  res.sendfile('./public/index.html'); // load our index.html file
 });
 
 
